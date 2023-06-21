@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>gpt test</title>
+</head>
+<body>
+    <form action="">
+        <input type="text" name="message" id="message">
+        <button type="submit"> send</button>
+    </form>
+    <div id="reply">
+
+    </div>
+    <script>
+        const chat = document.getElementById('chat');
+        const message = document.getElementById('message');
+        const form = document.querySelector('form');
+        form.addEventListener('submit', (e) =>{
+            e.preventDefault();
+            const text = message.value;
+            fetch('http://localhost:3000', {
+                method:'POST',
+                headers:{
+                    'Content-Type': 'application/json'
+                },
+                body: JSON.stringify({
+                    message: text
+                })
+            })
+            .then(res => res.json())
+            .then(data =>{
+                document.getElementById('reply').innerHTML = `${data.completion.content}`;
+                console.log(data.completion.content)
+            })
+
+        })
+    </script>
+</body>
+</html>
